@@ -11,6 +11,13 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+# Set environment variables
+DB_HOST =os.environ['DB_HOST']
+DB_USER =os.environ['DB_USER']
+DB_PASSWORD =os.environ['DB_PASSWORD']
+DB_NAME =os.environ['DB_NAME']
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -76,10 +83,14 @@ WSGI_APPLICATION = 'rest_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+##### make sure to install database adapter as example "pip install psycopg2" for Posgresql database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': DB_NAME,   # database name inside database server
+        'USER': DB_USER,  # database user
+        'PASSWORD': DB_PASSWORD, # database password
+        'HOST': DB_HOST, # database
     }
 }
 
