@@ -47,9 +47,15 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'movie_app',
+    # CORS
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    # CORS
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -58,6 +64,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True # Default is False
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:8081',
+# )
 
 ROOT_URLCONF = 'rest_api.urls'
 

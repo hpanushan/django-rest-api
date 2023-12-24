@@ -9,7 +9,7 @@ from rest_framework import generics
 from movie_app.models import Movie
 from movie_app.serializers import Movie_Serializer
 
-class Movie_View(mixins.ListModelMixin,
+class Movie_List_Create_View(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
     serializer_class = Movie_Serializer
@@ -47,11 +47,14 @@ class Movie_View(mixins.ListModelMixin,
         if movie:
             return Response({'message': 'Successful new movie'}, status=status.HTTP_201_CREATED)
         return Response({'message': 'Something went wrong'}, status=status.HTTP_400_BAD_REQUEST)
-    
-    def put(self, request):
+
+class Movie_Update_Delete_View(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+    serializer_class = Movie_Serializer
+    def put(self, request, id):
         # read data from request
-        movie_id = request.query_params.get('movie', None)
-        movie = Movie.objects.get(movie_id=movie_id)
+        movie = Movie.objects.get(id=int(id))
         
         if not movie:
             return Response({'message': 'No movies found'})
@@ -73,9 +76,9 @@ class Movie_View(mixins.ListModelMixin,
                 movie.save()
             return Response({'message': 'Update Complete'}, status=status.HTTP_200_OK)
 
-    def delete(self, request):
-        movie_id = request.query_params.get('movie', None)
-        movie = Movie.objects.get(movie_id=movie_id)
+    def delete(self, request, id):
+        # read data from request
+        movie = Movie.objects.get(id=int(id))
         
         if not movie:
             return Response({'message': 'No movie found'}, status=status.HTTP_404_NOT_FOUND)
